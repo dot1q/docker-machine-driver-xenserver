@@ -47,6 +47,7 @@ type Driver struct {
 	DiskSize       uint
 	SR             string
 	Network        string
+	Network2       string
 	Host           string
 	ISO            string
 	TAR            string
