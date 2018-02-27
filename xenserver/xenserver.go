@@ -520,6 +520,34 @@ func (d *Driver) Create() error {
 		}
 		networks = append(networks, network)
 	}
+	log.Infof("Add 2nd Network to VM...")
+	if d.Network2 == "" {
+		networks1, err := c.GetNetworks()
+		if err != nil {
+			return err
+		}
+		for _, network := range networks1 {
+			otherConfig, err := network.GetOtherConfig()
+			if err != nil {
+				return err
+			}
+			isInternal, ok := otherConfig["is_host_internal_management_network"]
+			if ok && isInternal == "true" {
+				continue
+			}
+			automaitc, ok := otherConfig["automatic"]
+			if ok && automaitc == "false" {
+				continue
+			}
+			networks = append(networks, network)
+		}
+	} else {
+		network, err := c.GetUniqueNetworkByNameLabel(d.Network2)
+		if err != nil {
+			return err
+		}
+		networks = append(networks, network)
+	}
 	if len(networks) == 0 {
 		return fmt.Errorf("Unable get available networks for %v", d.MachineName)
 	}
