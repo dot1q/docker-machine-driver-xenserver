@@ -111,6 +111,11 @@ func (d *Driver) GetCreateFlags() []mcnflag.Flag {
 			Usage:  "XenServer network label where the docker VM will be attached",
 		},
 		mcnflag.StringFlag{
+			EnvVar: "XENSERVER_NETWORK_LABEL_2",
+			Name:   "xenserver-network-label-2",
+			Usage:  "XenServer 2nd network label where the docker VM will be attached",
+		},
+		mcnflag.StringFlag{
 			EnvVar: "XENSERVER_HOST_LABEL",
 			Name:   "xenserver-host-label",
 			Usage:  "XenServer host label where the docker VM will be run",
@@ -178,6 +183,7 @@ func (d *Driver) SetConfigFromFlags(flags drivers.DriverOptions) error {
 	d.DiskSize = uint(flags.Int("xenserver-disk-size"))
 	d.SR = flags.String("xenserver-sr-label")
 	d.Network = flags.String("xenserver-network-label")
+	d.Network2 = flags.String("xenserver-network-label-2")
 	d.Host = flags.String("xenserver-host-label")
 	d.UploadTimeout = uint(flags.Int("xenserver-upload-timeout"))
 	d.WaitTimeout = uint(flags.Int("xenserver-wait-timeout"))
